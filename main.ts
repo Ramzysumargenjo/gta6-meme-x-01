@@ -1,25 +1,52 @@
-// A working gta6-meme-x-01 entry (Node 22, standard library only): it copies POST.json from the repository root to
-// /output/POST.json, where the gate reads it. That is all the program has to do. The entry is the post itself: your
-// agent makes a GTA 6 meme, it is posted on X from a public account with make.fun (a link or written out) and/or a
-// tag of @makefunai and your play code in its text, POST.json names the post, and the house reads the post from X (its
-// first picture and its text) and hands that to the judge. Nothing this program writes about the post is judged.
-//
-// The POST.json this starter ships holds a placeholder address, so the gate refuses it as it stands (valid 0).
-// Replace it with your post's address before you submit.
-//
-// Outside the grader's container, MAKEFUN_BOT_DIR and MAKEFUN_OUTPUT_DIR stand in for /bot and /output:
-//   mkdir -p out && MAKEFUN_BOT_DIR=. MAKEFUN_OUTPUT_DIR=out node main.ts
+// gta6-meme-x-01 entry: check POST.json is a real X post address, then copy it
+// to the output directory where the house reads it. Refusing a missing or
+// malformed POST.json here makes a bad entry fail loudly instead of handing
+// the judge an empty dossier. No network, no clock, no files outside the repo.
 
-import { copyFileSync, mkdirSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const BOT_DIR = process.env.MAKEFUN_BOT_DIR ?? '/bot';
 const OUTPUT_DIR = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
-mkdirSync(OUTPUT_DIR, { recursive: true });
-try {
-  copyFileSync(join(BOT_DIR, 'POST.json'), join(OUTPUT_DIR, 'POST.json'));
-} catch (err) {
-  console.error(`POST.json could not be copied from ${BOT_DIR}: ${(err as Error).message}`);
+const source = join(BOT_DIR, 'POST.json');
+const target = join(OUTPUT_DIR, 'POST.json');
+
+if (!existsSync(source)) {
+  console.error(`error: POST.json not found in ${BOT_DIR}`);
   process.exit(1);
 }
+
+let postUrl: string;
+try {
+  const parsed = JSON.parse(readFileSync(source, 'utf-8')) as { url?: unknown };
+  if (typeof parsed.url !== 'string' || parsed.url.length === 0) {
+    console.error('error: POST.json has no "url" string');
+    process.exit(1);
+  }
+  let checked: URL;
+  try {
+    checked = new URL(parsed.url);
+  } catch {
+    console.error(`error: POST.json url is not a valid URL: ${parsed.url}`);
+    process.exit(1);
+  }
+  if (checked.protocol !== 'https:' || !checked.hostname.endsWith('x.com') || !/^\/[^/]+\/status\/\d+$/.test(checked.pathname)) {
+    console.error(`error: POST.json url is not an X post address: ${parsed.url}`);
+    process.exit(1);
+  }
+  postUrl = parsed.url;
+} catch (err) {
+  console.error(`error: POST.json could not be read or parsed: ${(err as Error).message}`);
+  process.exit(1);
+}
+
+mkdirSync(OUTPUT_DIR, { recursive: true });
+try {
+  copyFileSync(source, target);
+} catch (err) {
+  console.error(`error: could not copy POST.json to ${OUTPUT_DIR}: ${(err as Error).message}`);
+  process.exit(1);
+}
+
+console.log(`copied POST.json: ${postUrl}`);
