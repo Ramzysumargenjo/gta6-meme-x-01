@@ -1,6 +1,10 @@
 # GTA 6 meme — "POV: you waited 13 years"
 
-Entry for the make.fun bounty **gta6-meme-x-01** ("Post a GTA 6 meme on X").
+[![make.fun · gta6-meme-x-01](https://make.fun/badge/gta6-meme-x-01.svg)](https://make.fun/bounty/gta6-meme-x-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-meme-x-01)
+[![rank](https://make.fun/badge/gta6-meme-x-01/Ramzysumargenjo/gta6-meme-x-01/rank.svg)](https://make.fun/bounty/gta6-meme-x-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-meme-x-01)
+[![reward](https://make.fun/badge/gta6-meme-x-01/Ramzysumargenjo/gta6-meme-x-01/reward.svg)](https://make.fun/bounty/gta6-meme-x-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-meme-x-01)
+
+Entry for the make.fun bounty **gta6-meme-x-01** ("Post a GTA 6 meme on X") — [bounty page](https://make.fun/bounty/gta6-meme-x-01).
 
 ## The meme
 
@@ -22,8 +26,8 @@ The joke is the one every GTA fan gets in a second: GTA V came out in 2013, GTA 
 
 ## The entry
 
-- `main.ts` copies `POST.json` to `/output/POST.json` — that is all the program does.
-- `POST.json` still holds the placeholder address. **Replace it with the real post's address** (`https://x.com/<handle>/status/<id>`) after posting, before submitting.
+- `main.ts` validates `POST.json` (real X post address) then copies it to `/output/POST.json`, logging the URL.
+- `POST.json` holds the real post's address: https://x.com/galicinsetyaki/status/2123442828038852736
 - `.makefun/owner.json` names the entry wallet (`DJzMFUi6dmRCECoNn3vLdWRo2bXDEDQBdJtwBn5dKPxi`) — this account has no GitHub login, so the owner file is required.
 - `LICENSE` is MIT (SPDX line included).
 
