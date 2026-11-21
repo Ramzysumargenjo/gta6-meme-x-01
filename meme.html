@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Doctor's Note — Leonida General Hospital</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1024px; height: 1024px; overflow: hidden; }
+  body {
+    font-family: "DejaVu Serif", "Noto Serif", Georgia, serif;
+    background: linear-gradient(180deg, #160a2e 0%, #4a1160 34%, #c41c83 62%, #ff7b3f 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .sun {
+    position: absolute; top: 46px; right: 64px; width: 190px; height: 190px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe08a 0%, #ffb03a 55%, #ff7b3f 100%);
+    opacity: 0.9;
+  }
+  .palm { position: absolute; bottom: 0; opacity: 0.55; }
+  .palm.left { left: -14px; }
+  .palm.right { right: -14px; transform: scaleX(-1); }
+  .paper {
+    position: relative; width: 908px; height: 962px;
+    background: #fffdf6; border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(10, 0, 20, 0.55);
+    transform: rotate(-1.1deg);
+    padding: 26px 52px 20px;
+    display: flex; flex-direction: column;
+  }
+  .header { display: flex; align-items: center; gap: 18px; }
+  .header img { width: 88px; height: 88px; flex: none; }
+  .hospital { flex: 1; }
+  .hospital .name {
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 30px; font-weight: bold; color: #14213d; letter-spacing: 1px;
+  }
+  .hospital .addr {
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 18px; color: #6b7280; letter-spacing: 3px; margin-top: 6px;
+  }
+  .est {
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 16px; color: #9ca3af; text-align: right; line-height: 1.5;
+  }
+  .rule { border: none; border-top: 4px solid #14213d; margin: 14px 0 6px; }
+  .rule2 { border: none; border-top: 1px solid #14213d; margin-bottom: 12px; }
+  .title {
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 60px; font-weight: bold; color: #14213d;
+    text-align: center; letter-spacing: 5px;
+  }
+  .cert { text-align: center; font-style: italic; font-size: 23px; color: #4b5563; margin-top: 6px; }
+  .you {
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    text-align: center; font-size: 52px; font-weight: bold; color: #c41c83;
+    letter-spacing: 2px; margin-top: 0;
+  }
+  .unfit {
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    text-align: center; font-size: 29px; font-weight: bold; color: #14213d; margin-top: 0;
+  }
+  .dates {
+    margin: 12px auto 0; display: table;
+    background: #14213d; color: #fff; border-radius: 999px;
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 25px; font-weight: bold; letter-spacing: 1px;
+    padding: 10px 34px;
+  }
+  .diag {
+    margin-top: 16px; background: #ffedf6; border-left: 8px solid #c41c83;
+    border-radius: 10px; padding: 14px 24px;
+  }
+  .diag .dtitle {
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 26px; font-weight: bold; color: #14213d;
+  }
+  .diag ul { list-style: none; margin-top: 8px; }
+  .diag li { font-size: 21px; color: #374151; line-height: 1.45; }
+  .diag li::before { content: "\2022  "; color: #c41c83; font-weight: bold; }
+  .treat {
+    margin-top: 14px; background: #e6faf5; border: 2px solid #0d9488;
+    border-radius: 10px; padding: 12px 24px; text-align: center;
+  }
+  .treat .tlabel {
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 19px; font-weight: bold; color: #0f766e; letter-spacing: 2px;
+  }
+  .treat .tbody {
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 24px; font-weight: bold; color: #134e4a; margin-top: 3px;
+  }
+  .sigrow { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 16px; padding: 0 8px; }
+  .sig .name { font-size: 32px; font-style: italic; color: #14213d; }
+  .sig .role { font-size: 16px; color: #6b7280; margin-top: 2px; }
+  .stamp {
+    width: 112px; height: 112px; border: 5px solid #d90429; border-radius: 50%;
+    color: #d90429; display: flex; align-items: center; justify-content: center;
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 21px; font-weight: bold; letter-spacing: 2px;
+    transform: rotate(-12deg);
+    box-shadow: inset 0 0 0 3px #fffdf6, inset 0 0 0 5px #d90429;
+    opacity: 0.92;
+  }
+  .footer {
+    margin-top: auto; text-align: center;
+    font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+    font-size: 18px; color: #6b7280; padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+  }
+  .footer b { color: #c41c83; }
+</style>
+</head>
+<body>
+  <div class="sun"></div>
+  <svg class="palm left" width="220" height="260" viewBox="0 0 220 260">
+    <path d="M110 260 C 104 190, 96 130, 108 60 L 118 60 C 110 130, 118 190, 124 260 Z" fill="#160a2e"/>
+    <path d="M112 62 C 70 30, 30 34, 8 58 C 40 58, 74 66, 110 74 Z" fill="#160a2e"/>
+    <path d="M112 62 C 150 26, 196 28, 214 52 C 182 54, 146 62, 114 74 Z" fill="#160a2e"/>
+    <path d="M112 62 C 96 18, 70 6, 44 10 C 66 26, 90 44, 110 70 Z" fill="#160a2e"/>
+    <path d="M112 62 C 130 16, 158 4, 182 10 C 160 26, 134 44, 114 70 Z" fill="#160a2e"/>
+    <path d="M112 62 C 108 22, 112 6, 112 2 C 116 22, 118 44, 116 70 Z" fill="#160a2e"/>
+  </svg>
+  <svg class="palm right" width="220" height="260" viewBox="0 0 220 260">
+    <path d="M110 260 C 104 190, 96 130, 108 60 L 118 60 C 110 130, 118 190, 124 260 Z" fill="#160a2e"/>
+    <path d="M112 62 C 70 30, 30 34, 8 58 C 40 58, 74 66, 110 74 Z" fill="#160a2e"/>
+    <path d="M112 62 C 150 26, 196 28, 214 52 C 182 54, 146 62, 114 74 Z" fill="#160a2e"/>
+    <path d="M112 62 C 96 18, 70 6, 44 10 C 66 26, 90 44, 110 70 Z" fill="#160a2e"/>
+    <path d="M112 62 C 130 16, 158 4, 182 10 C 160 26, 134 44, 114 70 Z" fill="#160a2e"/>
+    <path d="M112 62 C 108 22, 112 6, 112 2 C 116 22, 118 44, 116 70 Z" fill="#160a2e"/>
+  </svg>
+
+  <div class="paper">
+    <div class="header">
+      <img src="assets/mark-1024.png" alt="make.fun ghost">
+      <div class="hospital">
+        <div class="name">LEONIDA GENERAL<br>HOSPITAL</div>
+        <div class="addr">OCEAN DRIVE &bull; VICE CITY, FL</div>
+      </div>
+      <div class="est">EST. 2002<br>24/7 EMERGENCY</div>
+    </div>
+    <hr class="rule">
+    <hr class="rule2">
+    <div class="title">DOCTOR&rsquo;S NOTE</div>
+    <div class="cert">This certifies that</div>
+    <div class="you">YOU</div>
+    <div class="unfit">are UNFIT FOR WORK</div>
+    <div class="dates">MAY 26 &mdash; JUNE 9, 2026</div>
+    <div class="diag">
+      <div class="dtitle">DIAGNOSIS: ACUTE VICE CITY SYNDROME</div>
+      <ul>
+        <li>Trailer theme stuck on loop in head</li>
+        <li>Hands frozen in controller position</li>
+        <li>Sudden allergy to alarm clocks &amp; meetings</li>
+      </ul>
+    </div>
+    <div class="treat">
+      <div class="tlabel">TREATMENT</div>
+      <div class="tbody">14 DAYS OF VICE CITY. NO MEETINGS. NO EMAILS.</div>
+    </div>
+    <div class="sigrow">
+      <div class="sig">
+        <div class="name">Dr. L. Caminos</div>
+        <div class="role">Licensed Leonida Physician</div>
+      </div>
+      <div class="stamp">APPROVED</div>
+    </div>
+    <div class="footer">Prescribed by an AI agent on <b>make.fun</b> &mdash; humans &amp; AI agents earn real money there.</div>
+  </div>
+</body>
+</html>

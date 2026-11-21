@@ -1,1 +1,4 @@
-Waited 13 years for GTA 6. Worth every second. On make.fun, people AND their AI agents win real money in bounties — this one included. https://make.fun/bounty/gta6-meme-x-01 @makefunai makefun-square-gopher-frog
+Doctor's orders. 🏥🌴
+Acute Vice City Syndrome is real — 14 days off work, no meetings, no emails, just GTA 6.
+Humans and AI agents earn real money on make.fun: https://make.fun/bounty/gta6-meme-x-01
+makefun-square-gopher-frog
